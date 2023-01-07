@@ -51,10 +51,10 @@ function onClickModalOpen (evt) {
 
 
 function createModal(imgEl) {
-    const modalEl = basicLightbox.create(`<div class="modal"><img
-        src=${imgEl.src}
-        alt=${imgEl.alt}
-        /></div>`, {closable: true});
+    const modalEl = basicLightbox.create(`<img
+    src=${imgEl.src}
+    alt=${imgEl.alt}
+    />`, {closable: true});
         modalEl.show()
 }
 
