@@ -23,21 +23,30 @@ wrapperGallery.insertAdjacentHTML('afterbegin',marcup)
 // --------------------------------------
 
 
-// Remove default link behavior   (need optimisation)
-
-const imgLinkEl = document.querySelectorAll('.gallery__link');
-
-imgLinkEl.forEach(link => {
-    link.addEventListener('click', evt => evt.preventDefault())
-})
-
-// ---------------------------------------
 
 // Library LightBox
 
-wrapperGallery.addEventListener('click', onClickModalOpen)
+
+wrapperGallery.addEventListener('click', onClickModalOpen);
+
+let modalEl;
+
+
+
+function createModal(imgEl) {
+    modalEl = basicLightbox.create(`<img
+    src=${imgEl.src}
+    alt=${imgEl.alt}
+    />`, {closable: true});
+        modalEl.show()
+        
+}
+
 
 function onClickModalOpen (evt) {
+
+    evt.preventDefault()
+
     if (evt.target.nodeName !== 'IMG') {
         return
     }
@@ -45,31 +54,16 @@ function onClickModalOpen (evt) {
 
     if (imgEl) {
         createModal(imgEl)
+        wrapperGallery.addEventListener('keydown', onClickCloseModal)
     }
-    
 }
 
 
-function createModal(imgEl) {
-    const modalEl = basicLightbox.create(`<img
-    src=${imgEl.src}
-    alt=${imgEl.alt}
-    />`, {closable: true});
-        modalEl.show()
+function onClickCloseModal (evt) {
+    if (evt.code === 'Escape') {
+        modalEl.close()
+        wrapperGallery.removeEventListener('keydown', onClickCloseModal)
+    }
 }
 
-
-
-//  Тут я здался  (дублируется слушатель события)
-
-// function onClickCloseModal (evt, modalEl) {
-//     if (evt.code === 'Escape') {
-//         modalEl.close()
-//         wrapperGallery.removeEventListener('keydown', onClickCloseModal)
-//     }
-// }
-// ------------------------------------
-// if (modalEl.visible()) {
-//     wrapperGallery.addEventListener('keydown' ,(e) => onClickCloseModal(e, modalEl))
-//     }
 
